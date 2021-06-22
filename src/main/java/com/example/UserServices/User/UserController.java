@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RestController
+@RequestMapping("/api")
 public class UserController  {
 
     private final UserRepository userRepository;
@@ -46,6 +47,7 @@ public class UserController  {
     public ResponseEntity<?>  updateUser(@RequestBody User userRecord, @PathVariable String email ) {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("User not found with email: " + email));
         user.setEmail(userRecord.getEmail());
+
         return new ResponseEntity<>("The user was updated successfully.", HttpStatus.NO_CONTENT);
     }
 

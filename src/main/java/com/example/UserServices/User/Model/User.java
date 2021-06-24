@@ -1,11 +1,13 @@
-package com.example.UserServices.User;
+package com.example.UserServices.User.Model;
+
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "USER_TABLE")
-public class User {
+public class User extends RepresentationModel<User> {
 
 
     @Id

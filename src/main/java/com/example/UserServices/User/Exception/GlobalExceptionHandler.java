@@ -23,7 +23,6 @@ public class GlobalExceptionHandler {
 
 
 
-
     // 400
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<?> severErrorHTTP(BadRequestException exception){

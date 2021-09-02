@@ -8,6 +8,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,10 +61,12 @@ public class UserController  {
 
     @RequestMapping(value="/user/{email}", method= RequestMethod.PUT)
     public ResponseEntity<?>  updateUser(@RequestBody User userRecord, @PathVariable String email ) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("User not found with email: " + email));
-        user.setEmail(userRecord.getEmail());
+        User user = userRepository.findByEmail(userRecord.getEmail()).orElseThrow(()->
+                new ResourceNotFoundException("User not found with email: " + userRecord.getEmail()));
+        user.setEmail(email);
+        userRepository.save(user);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity("The user was updated successfully.", HttpStatus.OK);
     }
 
 
@@ -82,12 +85,12 @@ public class UserController  {
         List<User> list  = userRepository.findAll();
 
         list.stream().filter(user -> user.getEmail().equals(email)).findFirst()
-                .orElseThrow(()-> new ResourceNotFoundException("User not found with email: " + email));
+                .orElseThrow(()-> new ResourceNotFoundException("Delete: User not found with email: " + email));
 
 
         list.stream().filter(user -> user.getEmail().equals(email)).forEachOrdered(userRepository::delete);
 
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity("The user was deleted successfully.", HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/error", method = RequestMethod.GET)

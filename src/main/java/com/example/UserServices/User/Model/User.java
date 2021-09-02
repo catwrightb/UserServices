@@ -73,4 +73,15 @@ public class User extends RepresentationModel<User> {
                 && Objects.equals(this.firstname, user.firstname)
                 && Objects.equals(this.lastname, user.lastname);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
+    }
 }
